@@ -1,0 +1,32 @@
+meta {
+  name: setTimeout
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  jp.setVar("test-js-set-timeout", "");
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      jp.setVar("test-js-set-timeout", "jackpost");
+      resolve();
+    }, 1000);
+  });
+  
+  const v = jp.getVar("test-js-set-timeout");
+  jp.setVar("test-js-set-timeout", v + "-is-awesome");
+  
+}
+
+tests {
+  test("setTimeout()", function() {
+    const v = jp.getVar("test-js-set-timeout")
+    expect(v).to.eql("jackpost-is-awesome");
+  });
+}

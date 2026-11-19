@@ -1,0 +1,17 @@
+meta {
+  name: isSafeMode
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+tests {
+  test("jp.isSafeMode() returns true in the default sandbox", function() {
+    expect(jp.isSafeMode()).to.equal(true);
+  });
+}

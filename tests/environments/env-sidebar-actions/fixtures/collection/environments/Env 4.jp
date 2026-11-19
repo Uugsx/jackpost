@@ -1,0 +1,4 @@
+vars {
+  host: https://echo.usejackpost.com
+  envNumber: 4
+}

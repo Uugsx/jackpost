@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "DataType Env JP",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}

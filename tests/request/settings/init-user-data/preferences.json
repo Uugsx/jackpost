@@ -1,0 +1,14 @@
+{
+  "maximized": false,
+  "lastOpenedCollections": [
+    "{{collectionPath}}/requests-settings-jp",
+    "{{collectionPath}}/requests-settings-yml",
+    "{{collectionPath}}/encode-url-default-behaviour-jp"
+  ],
+  "preferences": {
+    "onboarding": {
+      "hasLaunchedBefore": true,
+      "hasSeenWelcomeModal": true
+    }
+  }
+}

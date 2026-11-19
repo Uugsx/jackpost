@@ -1,0 +1,28 @@
+info:
+  name: LotsOfReplies
+  type: grpc
+  seq: 3
+
+grpc:
+  url: "{{host}}"
+  method: /hello.HelloService/LotsOfReplies
+  methodType: server-streaming
+  message:
+    - title: message 1
+      message: |-
+        {
+          "greeting": "stream"
+        }
+
+runtime:
+  scripts:
+    - type: grpc:before-call-start
+      code: jp.deleteVar('replyCount');
+    - type: grpc:after-call-end
+      code: |-
+        test('the hook sees the one message the server stream sent', () => {
+          expect(jp.grpc.request.messages.count()).to.equal(1);
+          expect(jp.grpc.request.messages.get(0).data.greeting).to.equal('stream');
+        });
+
+        jp.setVar('replyCount', String(jp.grpc.response.messages.count()));

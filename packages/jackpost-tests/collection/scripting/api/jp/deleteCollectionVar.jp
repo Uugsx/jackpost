@@ -1,0 +1,32 @@
+meta {
+  name: deleteCollectionVar
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  jp.setCollectionVar("testDeleteCollectionVar", "to-be-deleted");
+}
+
+script:post-response {
+  jp.deleteCollectionVar("testDeleteCollectionVar");
+}
+
+tests {
+  test("should delete collection var", function() {
+    const val = jp.getCollectionVar("testDeleteCollectionVar");
+    expect(val).to.be.undefined;
+  });
+
+  test("should not throw when deleting non-existent key", function() {
+    expect(function() {
+      jp.deleteCollectionVar("non-existent-key");
+    }).to.not.throw();
+  });
+}

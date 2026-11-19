@@ -1,0 +1,84 @@
+meta {
+  name: url-helpers-test
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://echo.usejackpost.com/api/users/:userId?name=john&age=30
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: 123
+}
+
+script:pre-request {
+  // Test URL helper methods in pre-request script
+  const host = req.getHost();
+  const path = req.getPath();
+  const queryString = req.getQueryString();
+  const pathParams = req.getPathParams();
+  
+  // Store values for verification in tests
+  jp.setVar('preReqHost', host);
+  jp.setVar('preReqPath', path);
+  jp.setVar('preReqQueryString', queryString);
+  jp.setVar('preReqPathParams', JSON.stringify(pathParams));
+}
+
+script:post-response {
+  // Test URL helper methods in post-response script
+  const host = req.getHost();
+  const path = req.getPath();
+  const queryString = req.getQueryString();
+  const pathParams = req.getPathParams();
+  
+  // Store values for verification in tests
+  jp.setVar('postResHost', host);
+  jp.setVar('postResPath', path);
+  jp.setVar('postResQueryString', queryString);
+  jp.setVar('postResPathParams', JSON.stringify(pathParams));
+}
+
+tests {
+  test("getHost() returns correct host", function() {
+    const preReqHost = jp.getVar('preReqHost');
+    const postResHost = jp.getVar('postResHost');
+  
+    expect(preReqHost).to.equal('echo.usejackpost.com');
+    expect(postResHost).to.equal('echo.usejackpost.com');
+  });
+  
+  test("getPath() returns correct path", function() {
+    const preReqPath = jp.getVar('preReqPath');
+    const postResPath = jp.getVar('postResPath');
+  
+    expect(preReqPath).to.equal('/api/users/123');
+    expect(postResPath).to.equal('/api/users/123');
+  });
+  
+  test("getQueryString() returns correct query string", function() {
+    const preReqQueryString = jp.getVar('preReqQueryString');
+    const postResQueryString = jp.getVar('postResQueryString');
+  
+    expect(preReqQueryString).to.equal('name=john&age=30');
+    expect(postResQueryString).to.equal('name=john&age=30');
+  });
+  
+  test("getPathParams() returns correct path parameters", function() {
+    const preReqPathParams = JSON.parse(jp.getVar('preReqPathParams'));
+    const postResPathParams = JSON.parse(jp.getVar('postResPathParams'));
+  
+    expect(preReqPathParams).to.be.an('array');
+    expect(preReqPathParams).to.have.lengthOf(1);
+    expect(preReqPathParams[0].name).to.equal('userId');
+    expect(preReqPathParams[0].value).to.equal('123');
+    
+    expect(postResPathParams).to.be.an('array');
+    expect(postResPathParams).to.have.lengthOf(1);
+    expect(postResPathParams[0].name).to.equal('userId');
+    expect(postResPathParams[0].value).to.equal('123');
+  });
+}

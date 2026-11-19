@@ -1,0 +1,14 @@
+services:
+  jackpost-cli:
+    image: usejackpost/cli:latest
+    container_name: jackpost-cli-runner
+    volumes:
+      - ./collection:/jackpost
+      - ./reports:/reports
+    command:
+      run echo
+      -r
+      --env Prod
+      --reporter-json /reports/results.json
+      --reporter-junit /reports/results.xml
+      --reporter-html /reports/results.html

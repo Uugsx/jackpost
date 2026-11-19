@@ -1,0 +1,17 @@
+meta {
+  name: getCollectionName
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Check if collection name is jackpost-testbench", function () {
+      expect(jp.getCollectionName()).to.eql("jackpost-testbench");
+  });
+}

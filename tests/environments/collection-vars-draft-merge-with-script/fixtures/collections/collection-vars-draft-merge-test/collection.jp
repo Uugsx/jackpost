@@ -1,0 +1,4 @@
+vars:pre-request {
+  host: https://testbench-sanity.usejackpost.com
+  existingCollVar: original-coll-value
+}

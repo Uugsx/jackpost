@@ -1,0 +1,39 @@
+name: 'Setup Node Dependencies'
+description: 'Install Node.js and npm dependencies'
+inputs:
+  skip-build:
+    description: 'Skip building libraries'
+    required: false
+    default: 'false'
+  shell:
+    description: 'Shell to use (bash, pwsh)'
+    required: false
+    default: 'bash'
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+        cache-dependency-path: './package-lock.json'
+
+    - name: Install node dependencies
+      shell: ${{ inputs.shell }}
+      run: npm ci --legacy-peer-deps
+
+    - name: Build libraries
+      if: inputs.skip-build != 'true'
+      shell: ${{ inputs.shell }}
+      run: |
+        npm run build:graphql-docs
+        npm run build:jackpost-query
+        npm run build:jackpost-common
+        npm run sandbox:bundle-libraries --workspace=packages/jackpost-js
+        npm run build:jackpost-converters
+        npm run build:jackpost-requests
+        npm run build:schema-types
+        npm run build:jackpost-filestore
+        npm run build:jackpost-io
+        npm run build:jackpost-sqlite

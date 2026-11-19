@@ -1,0 +1,34 @@
+name: 'Run OAuth1 CLI Tests - Windows'
+description: 'Run OAuth1 CLI tests on Windows'
+runs:
+  using: 'composite'
+  steps:
+    - name: Run JP format CLI tests
+      shell: pwsh
+      run: |
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = "Stop"
+
+        $JP_CLI = "..\..\..\..\..\..\packages\jackpost-cli\bin\jp.js"
+
+        # navigate to JP test collection directory
+        Set-Location tests\auth\oauth1\fixtures\collections\jp
+
+        Write-Host "=== JP Format Collection Run ==="
+        $process = Start-Process -FilePath "node" -ArgumentList "$JP_CLI run --env Local --output junit-jp.xml --format junit" -NoNewWindow -Wait -PassThru -RedirectStandardError "nul"
+        if ($process.ExitCode -ne 0) { exit 1 }
+
+    - name: Run YML format CLI tests
+      shell: pwsh
+      run: |
+        Set-StrictMode -Version Latest
+        $ErrorActionPreference = "Stop"
+
+        $JP_CLI = "..\..\..\..\..\..\packages\jackpost-cli\bin\jp.js"
+
+        # navigate to YML test collection directory
+        Set-Location tests\auth\oauth1\fixtures\collections\yml
+
+        Write-Host "=== YML Format Collection Run ==="
+        $process = Start-Process -FilePath "node" -ArgumentList "$JP_CLI run --env Local --output junit-yml.xml --format junit" -NoNewWindow -Wait -PassThru -RedirectStandardError "nul"
+        if ($process.ExitCode -ne 0) { exit 1 }

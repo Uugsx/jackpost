@@ -1,0 +1,39 @@
+meta {
+  name: deleteAllGlobalEnvVars
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  jp.setGlobalEnvVar("testDelAllGlobalA", "a");
+  jp.setGlobalEnvVar("testDelAllGlobalB", "b");
+}
+
+tests {
+  const savedGlobalEnvVars = jp.getAllGlobalEnvVars();
+  jp.deleteAllGlobalEnvVars();
+
+  test("should delete all global env vars", function() {
+    const valA = jp.getGlobalEnvVar("testDelAllGlobalA");
+    const valB = jp.getGlobalEnvVar("testDelAllGlobalB");
+    expect(valA).to.be.undefined;
+    expect(valB).to.be.undefined;
+  });
+
+  test("should not throw when called on empty scope", function() {
+    expect(function() {
+      jp.deleteAllGlobalEnvVars();
+    }).to.not.throw();
+  });
+
+  // Restore global env vars for subsequent requests
+  for (const [key, value] of Object.entries(savedGlobalEnvVars)) {
+    jp.setGlobalEnvVar(key, value);
+  }
+}

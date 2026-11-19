@@ -1,0 +1,4 @@
+vars {
+  host: https://testbench-sanity.usejackpost.com
+  existingVar: original-value
+}

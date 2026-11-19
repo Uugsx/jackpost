@@ -1,0 +1,25 @@
+meta {
+  name: set-typed-env-vars
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://testbench-sanity.usejackpost.com/ping
+  body: none
+  auth: none
+}
+
+script:post-response {
+  jp.setEnvVar("envNum", 42);
+  jp.setEnvVar("envBool", true);
+  jp.setEnvVar("envObj", { port: 3000, ssl: true });
+}
+
+tests {
+  test("typed env vars are readable as their original types", function() {
+    expect(jp.getEnvVar("envNum")).to.equal(42);
+    expect(jp.getEnvVar("envBool")).to.equal(true);
+    expect(jp.getEnvVar("envObj")).to.deep.equal({ port: 3000, ssl: true });
+  });
+}

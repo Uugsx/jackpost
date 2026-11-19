@@ -1,0 +1,10 @@
+info:
+  name: child
+  type: folder
+
+request:
+  scripts:
+    - type: before-request
+      code: |-
+        jp.setEnvVar("childDir", __dirname);
+        jp.setEnvVar("childFile", __filename);

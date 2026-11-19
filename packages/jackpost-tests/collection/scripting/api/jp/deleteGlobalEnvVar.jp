@@ -1,0 +1,32 @@
+meta {
+  name: deleteGlobalEnvVar
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  jp.setGlobalEnvVar("testDeleteGlobalEnvVar", "to-be-deleted");
+}
+
+script:post-response {
+  jp.deleteGlobalEnvVar("testDeleteGlobalEnvVar");
+}
+
+tests {
+  test("should delete global env var", function() {
+    const val = jp.getGlobalEnvVar("testDeleteGlobalEnvVar");
+    expect(val).to.be.undefined;
+  });
+
+  test("should not throw when deleting non-existent key", function() {
+    expect(function() {
+      jp.deleteGlobalEnvVar("non-existent-key");
+    }).to.not.throw();
+  });
+}

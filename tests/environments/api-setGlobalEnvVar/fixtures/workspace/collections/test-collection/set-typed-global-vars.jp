@@ -1,0 +1,20 @@
+meta {
+  name: set-typed-global-vars
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/ping
+  body: none
+  auth: none
+}
+
+script:post-response {
+  // Typed values persist with their dataType annotation in Local.yml's variables list.
+  jp.setGlobalEnvVar("global_num", 42);
+  jp.setGlobalEnvVar("global_bool", true);
+  jp.setGlobalEnvVar("global_obj", { scope: "global" });
+  // Plain string — no dataType materialized.
+  jp.setGlobalEnvVar("global_str", "hello");
+}

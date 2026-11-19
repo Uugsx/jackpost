@@ -1,0 +1,28 @@
+meta {
+  name: setGlobalEnvVar
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{host}}/ping
+  body: none
+  auth: none
+}
+
+script:post-response {
+  jp.setGlobalEnvVar("testSetGlobalEnvVar", "global-test-value");
+}
+
+tests {
+  test("should set global env var in scripts", function() {
+    const val = jp.getGlobalEnvVar("testSetGlobalEnvVar");
+    expect(val).to.equal("global-test-value");
+  });
+
+  test("should overwrite existing global env var", function() {
+    jp.setGlobalEnvVar("testSetGlobalEnvVar", "overwritten");
+    const val = jp.getGlobalEnvVar("testSetGlobalEnvVar");
+    expect(val).to.equal("overwritten");
+  });
+}
