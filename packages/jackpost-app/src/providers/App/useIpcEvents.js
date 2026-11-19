@@ -382,6 +382,23 @@ const useIpcEvents = () => {
       dispatch(setGitVersion(val));
     });
 
+    const removeUpdateAvailableListener = ipcRenderer.on('main:update-available', ({ version, url }) => {
+      toast((t) => (
+        <span>
+          Доступна версия {version}.{' '}
+          <button
+            className="underline"
+            onClick={() => {
+              ipcRenderer.openExternal(url);
+              toast.dismiss(t.id);
+            }}
+          >
+            Скачать
+          </button>
+        </span>
+      ), { duration: 15000 });
+    });
+
     // Mock server events
     const removeMockServerStatusListener = ipcRenderer.on('main:mock-server-status-changed', (val) => {
       dispatch(updateServerStatus(val));
@@ -464,6 +481,7 @@ const useIpcEvents = () => {
       removeRuntimeVariablesUpdateListener();
       removeSystemResourcesListener();
       gitVersionListener();
+      removeUpdateAvailableListener();
       removeMockServerStatusListener();
       removeMockServerRequestLogListener();
       removeMockServerAddedListener();
