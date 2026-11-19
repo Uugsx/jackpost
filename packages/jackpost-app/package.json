@@ -33,7 +33,7 @@
     "@tiptap/extension-text-style": "^2.11.2",
     "@tiptap/pm": "^2.11.2",
     "@tiptap/react": "^2.11.2",
-    "@tiptap/starter-kit": "^2.11.2",
+    "@tiptap/starter-kit": "^3.34.0",
     "@jackpost/common": "0.1.0",
     "@jackpost/graphql-docs": "0.1.0",
     "@jackpost/schema": "0.7.0",
