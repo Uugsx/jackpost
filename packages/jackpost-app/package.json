@@ -118,7 +118,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@apidevtools/swagger-parser": "10.1.1",
+    "@apidevtools/swagger-parser": "13.1.0",
     "@babel/core": "7.29.7",
     "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
