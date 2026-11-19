@@ -1,7 +1,7 @@
 # Claude Config
 
 The [Claude Code](https://docs.claude.com/en/docs/claude-code) configuration for
-[Jackpost](https://github.com/usejackpost/jackpost) — the project context, architecture notes, coding
+[Jackpost](https://github.com/Uugsx/jackpost) — the project context, architecture notes, coding
 rules, and review/test skills the team has tuned while working on Jackpost. Claude picks it up
 automatically when you launch from the project root.
 
