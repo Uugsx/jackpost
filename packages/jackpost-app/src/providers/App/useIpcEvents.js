@@ -382,10 +382,22 @@ const useIpcEvents = () => {
       dispatch(setGitVersion(val));
     });
 
-    const removeUpdateAvailableListener = ipcRenderer.on('main:update-available', ({ version, url }) => {
+    const removeUpdateAvailableListener = ipcRenderer.on('main:update-available', ({ version, url, canInstall }) => {
+      const installUpdate = (toastId) => {
+        toast.loading('Скачивание обновления…', { id: toastId });
+        ipcRenderer.invoke('renderer:install-update').catch((error) => {
+          toast.error(`Не удалось установить: ${error.message}`, { id: toastId });
+        });
+      };
+
       toast((t) => (
         <span>
           Доступна версия {version}.{' '}
+          {canInstall && (
+            <button className="underline mr-2" onClick={() => installUpdate(t.id)}>
+              Установить
+            </button>
+          )}
           <button
             className="underline"
             onClick={() => {

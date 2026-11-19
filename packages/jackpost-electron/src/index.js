@@ -87,6 +87,7 @@ const { preferencesUtil, getPreferences, savePreferences } = require('./store/pr
 const { globalEnvironmentsManager } = require('./store/workspace-environments');
 const registerNotificationsIpc = require('./ipc/notifications');
 const { registerUpdateCheckIpc } = require('./ipc/update-check');
+const { registerUpdateInstallIpc } = require('./ipc/update-install');
 const registerGlobalEnvironmentsIpc = require('./ipc/global-environments');
 const registerAppDocumentIpc = require('./ipc/app-document');
 const AppDocuments = require('./app/app-documents');
@@ -576,6 +577,7 @@ app.on('ready', async () => {
   registerApiSpecIpc(mainWindow, apiSpecWatcher);
   registerNotificationsIpc(mainWindow, collectionWatcher);
   registerUpdateCheckIpc(mainWindow);
+  registerUpdateInstallIpc();
   registerFilesystemIpc(mainWindow);
   registerSystemMonitorIpc(mainWindow, systemMonitor);
   registerGitIpc(mainWindow);
