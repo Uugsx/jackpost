@@ -48,7 +48,7 @@
     "@jackpost/sqlite": "0.1.0",
     "about-window": "^1.15.2",
     "adm-zip": "0.6.1",
-    "ai": "6.0.39",
+    "ai": "7.0.173",
     "archiver": "^7.0.1",
     "aws4-axios": "^3.3.15",
     "axios": "1.21.0",
