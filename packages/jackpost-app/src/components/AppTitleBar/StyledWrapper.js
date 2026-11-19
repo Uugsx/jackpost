@@ -78,24 +78,6 @@ const Wrapper = styled.div`
     }
   }
 
-  /* Center section - Jackpost branding */
-  .titlebar-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    pointer-events: none;
-
-    .jackpost-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: ${(props) => props.theme.text};
-      letter-spacing: 0.5px;
-    }
-  }
-
   /* Right section */
   .titlebar-right {
     display: flex;

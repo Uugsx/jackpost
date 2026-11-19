@@ -12,13 +12,13 @@ test('Should verify all support links with correct URL in preference > Support t
   expect(await locator_twitter.getAttribute('href')).toEqual('https://twitter.com/use_jackpost');
 
   const locator_github = page.getByRole('link', { name: 'GitHub', exact: true });
-  expect(await locator_github.getAttribute('href')).toEqual('https://github.com/usejackpost/jackpost');
+  expect(await locator_github.getAttribute('href')).toEqual('https://github.com/Uugsx/jackpost');
 
   const locator_discord = page.getByRole('link', { name: 'Discord', exact: true });
   expect(await locator_discord.getAttribute('href')).toEqual('https://discord.com/invite/KgcZUncpjq');
 
   const locator_reportissues = page.getByRole('link', { name: 'Report Issues', exact: true });
-  expect(await locator_reportissues.getAttribute('href')).toEqual('https://github.com/usejackpost/jackpost/issues');
+  expect(await locator_reportissues.getAttribute('href')).toEqual('https://github.com/Uugsx/jackpost/issues');
 
   const locator_documentation = page.getByRole('link', { name: 'Documentation', exact: true });
   expect(await locator_documentation.getAttribute('href')).toEqual('https://docs.usejackpost.com');

@@ -294,11 +294,6 @@ const AppTitleBar = () => {
           </MenuDropdown>
         </div>
 
-        {/* Center section: Jackpost logo + text */}
-        <div className="titlebar-center">
-          <img src="static/jackpost-logo.png" alt="Jackpost" style={{ height: 22, borderRadius: 4 }} data-testid="titlebar-logo" />
-        </div>
-
         {/* Right section: Action buttons */}
         <div className="titlebar-right">
           <div className="titlebar-actions">

@@ -15,7 +15,7 @@ test.describe('Insomnia URL import', () => {
     // so give the import more room than that fetch.
     test.setTimeout(60_000);
 
-    const insomniaUrl = 'https://raw.githubusercontent.com/usejackpost/jackpost/refs/heads/main/tests/import/insomnia/fixtures/insomnia-v5.yaml';
+    const insomniaUrl = 'https://raw.githubusercontent.com/Uugsx/jackpost/refs/heads/main/tests/import/insomnia/fixtures/insomnia-v5.yaml';
     const { plusMenu, import: importLocators, request, sidebar, environment } = buildCommonLocators(page);
     const collectionName = 'Test API Collection v5';
     const locationModal = importLocators.locationModal();
