@@ -1,0 +1,6 @@
+{
+  "name": "Jackpost Env",
+  "variables": [
+    { "name": "base_url", "value": "https://jackpost.example.com", "enabled": true, "secret": false }
+  ]
+}

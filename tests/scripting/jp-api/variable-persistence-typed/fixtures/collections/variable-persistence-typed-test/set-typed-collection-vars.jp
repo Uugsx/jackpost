@@ -1,0 +1,25 @@
+meta {
+  name: set-typed-collection-vars
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://testbench-sanity.usejackpost.com/ping
+  body: none
+  auth: none
+}
+
+script:post-response {
+  jp.setCollectionVar("collNum", 7);
+  jp.setCollectionVar("collBool", false);
+  jp.setCollectionVar("collObj", { region: "eu", retries: 3 });
+}
+
+tests {
+  test("typed collection vars are readable as their original types", function() {
+    expect(jp.getCollectionVar("collNum")).to.equal(7);
+    expect(jp.getCollectionVar("collBool")).to.equal(false);
+    expect(jp.getCollectionVar("collObj")).to.deep.equal({ region: "eu", retries: 3 });
+  });
+}

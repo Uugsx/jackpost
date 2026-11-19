@@ -1,0 +1,14 @@
+opencollection: 1.0.0
+info:
+  name: "Environment Inheritance"
+  type: workspace
+
+collections:
+  - name: "Inheritance JP"
+    path: "collections/jp"
+  - name: "Inheritance YML"
+    path: "collections/yml"
+
+specs:
+
+docs: ''

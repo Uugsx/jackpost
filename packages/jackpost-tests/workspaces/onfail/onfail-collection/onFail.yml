@@ -1,0 +1,26 @@
+info:
+  name: onFail
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://127.0.0.1:59999/nope
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        jp.setVar("var", "original");
+        jp.setEnvVar("envVar", "original");
+        jp.setGlobalEnvVar("globalEnvVar", "original");
+
+        if (jp.getVar("var") !== "original") throw new Error("var was not set");
+        if (jp.getEnvVar("envVar") !== "original") throw new Error("envVar was not set");
+        if (jp.getGlobalEnvVar("globalEnvVar") !== "original") throw new Error("globalEnvVar was not set");
+
+        req.onFail(() => {
+          jp.setVar("var", "updated");
+          jp.setEnvVar("envVar", "updated");
+          jp.setGlobalEnvVar("globalEnvVar", "updated");
+        });

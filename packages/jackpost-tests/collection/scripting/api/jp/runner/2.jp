@@ -1,0 +1,19 @@
+meta {
+  name: 2
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://echo.usejackpost.com
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  jp.runner.skipRequest();
+}
+
+script:post-response {
+  jp.setVar('jp.runner.skipRequest', false);
+}

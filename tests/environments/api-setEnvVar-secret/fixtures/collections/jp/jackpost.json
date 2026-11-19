@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "api-setEnvVar-secret-jp",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

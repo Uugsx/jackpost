@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "ws-var-scopes-jp",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

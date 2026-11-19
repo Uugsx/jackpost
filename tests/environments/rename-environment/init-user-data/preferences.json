@@ -1,0 +1,12 @@
+{
+  "lastOpenedCollections": [
+    "{{collectionPath}}/jp",
+    "{{collectionPath}}/yml"
+  ],
+  "preferences": {
+    "onboarding": {
+      "hasLaunchedBefore": true,
+      "hasSeenWelcomeModal": true
+    }
+  }
+}

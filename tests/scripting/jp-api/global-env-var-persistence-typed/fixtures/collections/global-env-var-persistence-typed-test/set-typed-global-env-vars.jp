@@ -1,0 +1,25 @@
+meta {
+  name: set-typed-global-env-vars
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://testbench-sanity.usejackpost.com/ping
+  body: none
+  auth: none
+}
+
+script:post-response {
+  jp.setGlobalEnvVar("globalNum", 99);
+  jp.setGlobalEnvVar("globalBool", false);
+  jp.setGlobalEnvVar("globalObj", { tier: "premium", limit: 1000 });
+}
+
+tests {
+  test("typed global env vars are readable as their original types", function() {
+    expect(jp.getGlobalEnvVar("globalNum")).to.equal(99);
+    expect(jp.getGlobalEnvVar("globalBool")).to.equal(false);
+    expect(jp.getGlobalEnvVar("globalObj")).to.deep.equal({ tier: "premium", limit: 1000 });
+  });
+}

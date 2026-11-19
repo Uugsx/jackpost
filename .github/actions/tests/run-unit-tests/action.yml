@@ -1,0 +1,61 @@
+name: 'Run Unit Tests'
+description: 'Setup dependencies and run unit tests for all packages'
+inputs:
+  shell:
+    description: 'Shell to use (bash, pwsh)'
+    required: false
+    default: 'bash'
+runs:
+  using: 'composite'
+  steps:
+    - name: Test Package jackpost-js
+      shell: ${{ inputs.shell }}
+      run: npm run test:ci --workspace=packages/jackpost-js
+
+    - name: Test Package jackpost-cli
+      shell: ${{ inputs.shell }}
+      run: npm run test:ci --workspace=packages/jackpost-cli
+
+    - name: Test Package jackpost-query
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-query
+
+    - name: Test Package jackpost-lang
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-lang
+
+    - name: Test Package jackpost-schema
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-schema
+
+    - name: Test Package jackpost-app
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-app
+
+    - name: Test Package jackpost-common
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-common
+
+    - name: Test Package jackpost-converters
+      shell: ${{ inputs.shell }}
+      run: npm run test:ci --workspace=packages/jackpost-converters
+
+    - name: Test Package jackpost-electron
+      shell: ${{ inputs.shell }}
+      run: npm run test:ci --workspace=packages/jackpost-electron
+
+    - name: Test Package jackpost-requests
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-requests
+
+    - name: Test Package jackpost-filestore
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-filestore
+
+    - name: Test Package jackpost-io
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-io
+
+    - name: Test Package jackpost-sqlite
+      shell: ${{ inputs.shell }}
+      run: npm run test --workspace=packages/jackpost-sqlite
