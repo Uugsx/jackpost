@@ -3,7 +3,10 @@ const { ipcMain } = require('electron');
 const fetch = require('node-fetch');
 
 const fetchNotifications = async () => {
-  const url = process.env.JACKPOST_INFO_ENDPOINT || 'https://appinfo.usejackpost.com';
+  const url = process.env.JACKPOST_INFO_ENDPOINT;
+  if (!url) {
+    return [];
+  }
   const data = await fetch(url).then((res) => res.json());
   return data?.notifications || [];
 };

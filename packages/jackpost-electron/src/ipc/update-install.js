@@ -1,5 +1,5 @@
 const { app, ipcMain } = require('electron');
-const { spawn } = require('child_process');
+const { spawnSync } = require('child_process');
 const crypto = require('crypto');
 const fs = require('fs');
 const fsPromises = require('fs/promises');
@@ -68,12 +68,17 @@ const downloadDmg = async ({ url, name, digest }) => {
 // только после успешного копирования: при ошибке остаётся и запускается старое приложение.
 const INSTALL_SCRIPT = `#!/bin/bash
 set -euo pipefail
+# Скрипт живёт дольше приложения и не привязан к терминалу: лог — единственный способ узнать причину сбоя.
+exec >> "\${TMPDIR:-/tmp}/jackpost-update.log" 2>&1
+trap '' HUP
 DMG="$1"
 DEST="$2"
 PID="$3"
 SCRIPT="$0"
 MOUNT=$(mktemp -d /tmp/jackpost-update.XXXXXX)
-while kill -0 "$PID" 2>/dev/null; do sleep 0.2; done
+for _ in $(seq 1 25); do kill -0 "$PID" 2>/dev/null || break; sleep 0.2; done
+kill -9 "$PID" 2>/dev/null || true
+sleep 0.5
 cleanup() {
   hdiutil detach "$MOUNT" -quiet 2>/dev/null || true
   rm -rf "$MOUNT"
@@ -110,7 +115,12 @@ const installPendingUpdate = async () => {
   const dmgPath = await downloadDmg(pendingUpdate);
   const scriptPath = path.join(app.getPath('temp'), `jackpost-install-${process.pid}.sh`);
   await fsPromises.writeFile(scriptPath, INSTALL_SCRIPT, { mode: 0o755 });
-  spawn('/bin/bash', [scriptPath, dmgPath, destApp, String(process.pid)], { detached: true, stdio: 'ignore' }).unref();
+  // launchd владеет процессом установщика: он переживает как выход, так и принудительное завершение приложения
+  const label = `com.jackpost.updater.${process.pid}`;
+  const submit = spawnSync('/bin/launchctl', ['submit', '-l', label, '--', '/bin/bash', scriptPath, dmgPath, destApp, String(process.pid)]);
+  if (submit.status !== 0) {
+    throw new Error(`Не удалось запустить установщик: ${String(submit.stderr).trim()}`);
+  }
   app.exit(0);
 };
 

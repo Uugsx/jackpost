@@ -1,4 +1,4 @@
-const { app } = require('electron');
+const { app, ipcMain } = require('electron');
 const fetch = require('node-fetch');
 const { setPendingUpdate, pickMacDmgAsset } = require('./update-install');
 
@@ -29,10 +29,11 @@ const fetchLatestRelease = async () => {
   return response.json();
 };
 
-const checkForUpdate = async (mainWindow) => {
+const checkForUpdate = async (mainWindow, { manual = false } = {}) => {
   try {
     const release = await fetchLatestRelease();
     if (!release?.tag_name || !isNewerVersion(release.tag_name, app.getVersion())) {
+      if (manual) mainWindow.webContents.send('main:update-check-result', { status: 'up-to-date', version: app.getVersion() });
       return;
     }
     const version = release.tag_name.replace(/^v/i, '');
@@ -45,11 +46,13 @@ const checkForUpdate = async (mainWindow) => {
     });
   } catch (error) {
     console.error('Update check failed:', error.message);
+    if (manual) mainWindow.webContents.send('main:update-check-result', { status: 'error', message: error.message });
   }
 };
 
 const registerUpdateCheckIpc = (mainWindow) => {
   mainWindow.webContents.once('did-finish-load', () => checkForUpdate(mainWindow));
+  ipcMain.on('main:check-for-updates', () => checkForUpdate(mainWindow, { manual: true }));
 };
 
 module.exports = { registerUpdateCheckIpc, checkForUpdate, isNewerVersion };

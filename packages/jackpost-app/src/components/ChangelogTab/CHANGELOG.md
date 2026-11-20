@@ -57,4 +57,4 @@ GitHub SAML SSO failures on push and pull now show the actual error from GitHub 
 
 ---
 
-For the complete list of changes, see the [Release changelog](https://www.usejackpost.com/changelog).
+

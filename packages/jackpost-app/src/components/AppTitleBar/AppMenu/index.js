@@ -126,9 +126,9 @@ const AppMenu = () => {
           onClick: () => ipcRenderer?.invoke('renderer:open-about')
         },
         {
-          id: 'documentation',
-          label: 'Documentation',
-          onClick: () => ipcRenderer?.invoke('renderer:open-docs')
+          id: 'check-for-updates',
+          label: 'Check for Updates…',
+          onClick: () => ipcRenderer?.invoke('renderer:check-for-updates')
         }
       ]
     }

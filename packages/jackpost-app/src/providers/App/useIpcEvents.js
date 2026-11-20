@@ -382,6 +382,14 @@ const useIpcEvents = () => {
       dispatch(setGitVersion(val));
     });
 
+    const removeUpdateCheckResultListener = ipcRenderer.on('main:update-check-result', ({ status, version, message }) => {
+      if (status === 'up-to-date') {
+        toast.success(`Установлена последняя версия (${version})`);
+      } else {
+        toast.error(`Не удалось проверить обновления: ${message}`);
+      }
+    });
+
     const removeUpdateAvailableListener = ipcRenderer.on('main:update-available', ({ version, url, canInstall }) => {
       const installUpdate = (toastId) => {
         toast.loading('Скачивание обновления…', { id: toastId });
@@ -494,6 +502,7 @@ const useIpcEvents = () => {
       removeSystemResourcesListener();
       gitVersionListener();
       removeUpdateAvailableListener();
+      removeUpdateCheckResultListener();
       removeMockServerStatusListener();
       removeMockServerRequestLogListener();
       removeMockServerAddedListener();

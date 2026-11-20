@@ -165,7 +165,7 @@ const OAuth2AuthorizationCode = ({ save, item = {}, request, handleRun, updateAu
               onRun={handleRun}
               collection={collection}
               item={item}
-              placeholder={useSystemBrowser ? 'https://oauth.usejackpost.com/callback' : undefined}
+              placeholder={useSystemBrowser ? 'http://localhost/callback' : undefined}
               readOnly={readOnly}
               isCompact
             />

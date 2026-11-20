@@ -1,6 +1,6 @@
 # Jackpost CLI Docker Images
 
-Official Docker images for [Jackpost CLI](https://www.usejackpost.com), enabling container-native API collection runs in CI/CD pipelines and local environments without requiring Node.js or npm on the host. See the [Jackpost CLI docs](https://docs.usejackpost.com/jp-cli/overview) for CLI usage.
+Official Docker images for Jackpost CLI, enabling container-native API collection runs in CI/CD pipelines and local environments without requiring Node.js or npm on the host.
 
 ## Registries
 

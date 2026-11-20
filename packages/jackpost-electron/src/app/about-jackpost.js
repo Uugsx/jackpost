@@ -61,7 +61,7 @@ module.exports = function aboutJackpost({ version }) {
         <div style="font-size:72px;line-height:80px;font-weight:700;color:#2BC4B0">J</div>
       <h2 class="title">Jackpost ${version}</h2>
       <footer class="footer">
-          Jackpost — SOAP + REST client. Based on Jackpost (MIT), ©${currentYear} Jackpost Software Inc
+          Jackpost — SOAP + REST client.<br>© ${currentYear} Jackpost
       </footer>
     </body>
     </html>

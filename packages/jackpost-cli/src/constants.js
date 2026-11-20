@@ -1,6 +1,6 @@
 const { version } = require('../package.json');
 
-const CLI_EPILOGUE = `Documentation: https://docs.usejackpost.com (v${version})`;
+const CLI_EPILOGUE = `Jackpost CLI v${version}`;
 const CLI_VERSION = version;
 const COLORS = {
   ORANGE: '#FFA500'

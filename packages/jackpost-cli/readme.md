@@ -4,7 +4,6 @@ With Jackpost CLI, you can now run your API collections with ease using simple c
 
 This makes it easier to test your APIs in different environments, automate your testing process, and integrate your API tests with your continuous integration and deployment workflows.
 
-For detailed documentation, visit [Jackpost CLI Documentation](https://docs.usejackpost.com/jp-cli/overview).
 
 ## Installation
 

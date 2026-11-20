@@ -366,8 +366,8 @@ app.on('ready', async () => {
     mainWindow.setFullScreen(!mainWindow.isFullScreen());
   });
 
-  ipcMain.handle('renderer:open-docs', () => {
-    ipcMain.emit('main:open-docs');
+  ipcMain.handle('renderer:check-for-updates', () => {
+    ipcMain.emit('main:check-for-updates');
   });
 
   ipcMain.handle('renderer:open-about', () => {

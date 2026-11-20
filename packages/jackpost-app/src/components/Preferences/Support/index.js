@@ -1,11 +1,7 @@
 import React from 'react';
 import {
   IconSpeakerphone,
-  IconBrandTwitter,
   IconBrandGithub,
-  IconBrandDiscord,
-  IconBrandLinkedin,
-  IconBook,
   IconExternalLink
 } from '@tabler/icons';
 import StyledWrapper from './StyledWrapper';
@@ -16,13 +12,6 @@ const SUPPORT_GROUPS = [
     key: 'help',
     label: 'SUPPORT.HELP',
     links: [
-      {
-        key: 'documentation',
-        icon: IconBook,
-        url: 'https://docs.usejackpost.com',
-        label: 'COMMON.DOCUMENTATION',
-        description: 'SUPPORT.DOCUMENTATION_DESCRIPTION'
-      },
       {
         key: 'report-issues',
         icon: IconSpeakerphone,
@@ -42,27 +31,6 @@ const SUPPORT_GROUPS = [
         url: 'https://github.com/Uugsx/jackpost',
         label: 'COMMON.GITHUB',
         description: 'SUPPORT.GITHUB_DESCRIPTION'
-      },
-      {
-        key: 'discord',
-        icon: IconBrandDiscord,
-        url: 'https://discord.com/invite/KgcZUncpjq',
-        label: 'COMMON.DISCORD',
-        description: 'SUPPORT.DISCORD_DESCRIPTION'
-      },
-      {
-        key: 'twitter',
-        icon: IconBrandTwitter,
-        url: 'https://twitter.com/use_jackpost',
-        label: 'COMMON.TWITTER',
-        description: 'SUPPORT.TWITTER_DESCRIPTION'
-      },
-      {
-        key: 'linkedin',
-        icon: IconBrandLinkedin,
-        url: 'https://in.linkedin.com/company/usejackpost',
-        label: 'COMMON.LINKEDIN',
-        description: 'SUPPORT.LINKEDIN_DESCRIPTION'
       }
     ]
   }

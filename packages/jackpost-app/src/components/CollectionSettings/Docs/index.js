@@ -113,6 +113,5 @@ This documentation supports Markdown formatting! You can use:
 - **Bold** and *italic* text
 - \`code blocks\` and syntax highlighting
 - Tables and lists
-- [Links](https://usejackpost.com)
 - And more!
 `;

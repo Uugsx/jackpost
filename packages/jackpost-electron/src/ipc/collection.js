@@ -2811,11 +2811,6 @@ const registerMainEventHandlers = (mainWindow) => {
   ipcMain.on('renderer:open-collection', triggerOpenCollection);
   ipcMain.on('menu:open-collection', triggerOpenCollection);
 
-  ipcMain.on('main:open-docs', () => {
-    const docsURL = 'https://docs.usejackpost.com';
-    shell.openExternal(docsURL);
-  });
-
   ipcMain.on('main:collection-opened', async (win, pathname, uid, jackpostConfig) => {
     app.addRecentDocument(pathname);
   });
