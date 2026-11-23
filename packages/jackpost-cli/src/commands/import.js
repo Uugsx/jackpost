@@ -4,7 +4,7 @@ const { pathToFileURL, fileURLToPath } = require('url');
 const chalk = require('chalk');
 const jsyaml = require('js-yaml');
 const axios = require('axios');
-const { openApiToJackpost, wsdlToJackpost, postmanToJackpost, postmanToJackpostEnvironment } = require('@jackpost/converters');
+const { openApiToJackpost, wsdlToJackpost, soapuiToJackpost, postmanToJackpost, postmanToJackpostEnvironment } = require('@jackpost/converters');
 const { AUTH_PLACEMENTS, REQUEST_NAME_SOURCES, DEFAULT_AUTH_PLACEMENT, DEFAULT_REQUEST_NAME_SOURCE } = require('@jackpost/common');
 const { coerceEnvName, dedupeImportedSecrets, generateUniqueName, sanitizeName, validateName, validateNameError } = require('@jackpost/common').utils;
 const { exists, isDirectory, canonicalPath } = require('../utils/filesystem');
@@ -12,9 +12,9 @@ const { formatImportSummary, formatImportIssues, formatPackageReport, hasImportE
 const { writeCollectionLegacy } = require('@jackpost/io');
 
 const command = 'import <type>';
-const desc = 'Import a collection (OpenAPI, WSDL, Postman) from other formats';
+const desc = 'Import a collection (OpenAPI, WSDL, SoapUI, Postman) from other formats';
 
-const IMPORT_TYPES = ['openapi', 'wsdl', 'postman'];
+const IMPORT_TYPES = ['openapi', 'wsdl', 'soapui', 'postman'];
 const COLLECTION_FORMATS = ['jp', 'opencollection'];
 
 const WSDL_MAX_SCHEMA_FILE_SIZE = 10 * 1024 * 1024;
@@ -101,6 +101,7 @@ const builder = (yargs) => {
     .example('$0 import openapi --source api.yml --output ~/Desktop/my-collections --auth-placement collection')
     .example('$0 import wsdl --source service.wsdl --output ~/Desktop/soap-collections --collection-name "SOAP Service"')
     .example('$0 import wsdl -s https://example.com/service.wsdl -o ~/Desktop -n "Remote SOAP Service"')
+    .example('$0 import soapui --source my-soapui-project.xml --output ~/Desktop')
     .example('$0 import postman --source my-api.postman_collection.json --output ~/Desktop')
     .example('$0 import postman -s my-api.postman_collection.json -o ~/Desktop -n "My API"')
     .example('$0 import postman -s https://example.com/my-api.postman_collection.json -o ~/Desktop --preserve-scripts')
@@ -456,6 +457,18 @@ const handler = async (argv) => {
       if (jackpostCollection.soapEndpoints) {
         jackpostCollection.jackpostConfig = { soapEndpoints: jackpostCollection.soapEndpoints };
       }
+    } else if (type === 'soapui') {
+      console.log(chalk.yellow(`Reading SoapUI project from ${source}...`));
+
+      const projectContent = await readWSDLFile(source, { insecure });
+
+      if (!projectContent) {
+        console.error(chalk.red('Failed to read SoapUI project file'));
+        process.exit(1);
+      }
+
+      console.log(chalk.yellow('Converting SoapUI project to Jackpost format...'));
+      jackpostCollection = await soapuiToJackpost(projectContent);
     }
 
     // Override collection name if provided

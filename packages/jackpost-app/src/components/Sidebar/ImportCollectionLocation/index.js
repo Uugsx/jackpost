@@ -12,6 +12,7 @@ import { convertOpenapiToJackpost, isSwagger2Spec, buildOpenApiSyncJackpostConfi
 import { processJackpostCollection } from 'utils/importers/jackpost-collection';
 import { processOpenCollection } from 'utils/importers/opencollection';
 import { convertWsdlToJackpost } from 'utils/importers/wsdl-collection';
+import { convertSoapUIToJackpost } from 'utils/importers/soapui-collection';
 import { toastError } from 'utils/common/error';
 import { addLog } from 'providers/ReduxStore/slices/logs';
 import Portal from 'components/Portal';
@@ -53,6 +54,8 @@ const getCollectionName = (format, rawData) => {
       return rawData.info?.name || 'OpenCollection';
     case 'wsdl':
       return 'WSDL Collection';
+    case 'soapui':
+      return 'SoapUI Project';
     case 'jackpost-zip':
       return rawData.collectionName || 'Jackpost Collection';
     default:
@@ -73,6 +76,9 @@ const convertCollection = async (format, rawData, { groupingType, collectionForm
         break;
       case 'wsdl':
         collection = await convertWsdlToJackpost(rawData, filePath || sourceUrl);
+        break;
+      case 'soapui':
+        collection = await convertSoapUIToJackpost(rawData);
         break;
       case 'postman': {
         const result = await postmanToJackpost(rawData, { preserveScripts });

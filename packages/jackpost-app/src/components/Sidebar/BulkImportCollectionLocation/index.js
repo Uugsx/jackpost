@@ -25,6 +25,7 @@ import { convertInsomniaToJackpost } from 'utils/importers/insomnia-collection';
 import { convertOpenapiToJackpost, isSwagger2Spec, buildOpenApiSyncJackpostConfig } from 'utils/importers/openapi-collection';
 import { processJackpostCollection } from 'utils/importers/jackpost-collection';
 import { convertWsdlToJackpost } from 'utils/importers/wsdl-collection';
+import { convertSoapUIToJackpost } from 'utils/importers/soapui-collection';
 import StyledWrapper from './StyledWrapper';
 import toast from 'react-hot-toast';
 import { showImportIssuesToast } from 'components/Toast/ImportIssuesToast';
@@ -65,6 +66,8 @@ const getCollectionName = (format, rawData) => {
       return rawData.name || 'Jackpost Collection';
     case 'wsdl':
       return 'WSDL Collection';
+    case 'soapui':
+      return 'SoapUI Project';
     default:
       return 'Collection';
   }
@@ -82,6 +85,9 @@ const convertCollection = async (format, rawData, { groupingType, authPlacement,
       break;
     case 'wsdl':
       collection = await convertWsdlToJackpost(rawData, filePath);
+      break;
+    case 'soapui':
+      collection = await convertSoapUIToJackpost(rawData);
       break;
     case 'postman': {
       const result = await postmanToJackpost(rawData);

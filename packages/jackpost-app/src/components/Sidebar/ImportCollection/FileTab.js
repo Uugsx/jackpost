@@ -5,6 +5,7 @@ import { isPostmanCollection } from 'utils/importers/postman-collection';
 import { isInsomniaCollection } from 'utils/importers/insomnia-collection';
 import { isOpenApiSpec, isSwagger2Spec } from 'utils/importers/openapi-collection';
 import { isWSDLCollection } from 'utils/importers/wsdl-collection';
+import { isSoapUICollection } from 'utils/importers/soapui-collection';
 import { isJackpostCollection } from 'utils/importers/jackpost-collection';
 import { isOpenCollection } from 'utils/importers/opencollection';
 import { parseFileText } from 'utils/importers/file-reader';
@@ -86,6 +87,8 @@ const FileTab = ({
           let type = null;
           if (isOpenApiSpec(data)) {
             type = 'openapi';
+          } else if (isSoapUICollection(data)) {
+            type = 'soapui';
           } else if (isWSDLCollection(data)) {
             type = 'wsdl';
           } else if (isPostmanCollection(data)) {
@@ -138,6 +141,8 @@ const FileTab = ({
 
       if (isOpenApiSpec(data)) {
         type = 'openapi';
+      } else if (isSoapUICollection(data)) {
+        type = 'soapui';
       } else if (isWSDLCollection(data)) {
         type = 'wsdl';
       } else if (isPostmanCollection(data)) {
@@ -261,7 +266,7 @@ const FileTab = ({
             </button>
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            Supports Jackpost, OpenCollection, Postman, Insomnia, OpenAPI 3.x / Swagger 2.0, WSDL, and ZIP formats
+            Supports Jackpost, OpenCollection, Postman, Insomnia, OpenAPI 3.x / Swagger 2.0, WSDL, SoapUI project, and ZIP formats
           </p>
         </div>
       </div>

@@ -8,3 +8,4 @@ export { default as postmanTranslation, translatePostmanScript } from './postman
 export { mergeScriptTranslationReports } from './postman/postman-script-report.js';
 export { openCollectionToJackpost } from './opencollection/opencollection-to-jackpost.js';
 export { jackpostToOpenCollection } from './opencollection/jackpost-to-opencollection.js';
+export { default as soapuiToJackpost, isSoapUIProject } from './soapui/soapui-to-jackpost.js';
