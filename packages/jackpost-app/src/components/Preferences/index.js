@@ -11,11 +11,13 @@ import {
   IconZoomQuestion,
   IconSquareLetterB,
   IconDatabase,
-  IconCertificate
+  IconCertificate,
+  IconBook
 } from '@tabler/icons';
 
 import IconSparkles from 'components/Icons/IconSparkles';
 import Support from './Support';
+import Documentation from './Documentation';
 import General from './General';
 import Themes from './Themes';
 import Proxy from './ProxySettings';
@@ -73,6 +75,10 @@ const Preferences = () => {
         return <AI />;
       }
 
+      case 'documentation': {
+        return <Documentation />;
+      }
+
       case 'support': {
         return <Support />;
       }
@@ -122,6 +128,10 @@ const Preferences = () => {
           <div className={getTabClassname('cache')} role="tab" onClick={() => setTab('cache')}>
             <IconDatabase size={16} strokeWidth={1.5} />
             Cache
+          </div>
+          <div className={getTabClassname('documentation')} role="tab" onClick={() => setTab('documentation')}>
+            <IconBook size={16} strokeWidth={1.5} />
+            Документация
           </div>
           <div className={getTabClassname('support')} role="tab" onClick={() => setTab('support')}>
             <IconZoomQuestion size={16} strokeWidth={1.5} />
