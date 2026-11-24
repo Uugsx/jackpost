@@ -37,4 +37,11 @@ describe('pickUpdateAsset', () => {
   it('возвращает null на неподдерживаемых платформах', () => {
     expect(pickUpdateAsset([asset('Jackpost-x64.dmg')], 'linux', 'x64')).toBeNull();
   });
+
+  it('не предлагает автоустановку portable-сборке и не путает portable с установщиком', () => {
+    const assets = [asset('Jackpost_2.0.5_x64_win_portable.exe'), asset('Jackpost_2.0.5_x64_win.exe')];
+    expect(pickUpdateAsset(assets, 'win32', 'x64', true)).toBeNull();
+    expect(pickUpdateAsset(assets, 'win32', 'x64', false).name).toBe('Jackpost_2.0.5_x64_win.exe');
+    expect(pickUpdateAsset([asset('Jackpost_2.0.5_x64_win_portable.exe')], 'win32', 'x64', false)).toBeNull();
+  });
 });

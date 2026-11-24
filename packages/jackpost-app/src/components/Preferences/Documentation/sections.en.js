@@ -110,7 +110,8 @@ jp import wsdl -s https://example.com/service?wsdl -o ~/Desktop`
     id: 'updates',
     title: 'Updates',
     blocks: [
-      { text: 'The «Check for Updates…» menu item looks for the latest version. If it is newer than the installed one, Jackpost offers to install it: it downloads the image, verifies its checksum, replaces itself and restarts. Your data and settings are kept.' }
+      { text: 'The «Check for Updates…» menu item looks for the latest version. If it is newer than the installed one, Jackpost offers to install it: it downloads the image, verifies its checksum, replaces itself and restarts. Your data and settings are kept.' },
+      { text: 'The Windows portable version (*_win_portable.exe) does not install updates itself: it opens the release page, download the new exe from there.' }
     ]
   }
 ];

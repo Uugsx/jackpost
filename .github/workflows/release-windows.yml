@@ -31,11 +31,11 @@ jobs:
       - run: npm run setup
       - run: npm run build:web
       - run: npm run build:electron
-      - name: Upload installer to the release
+      - name: Upload installer and portable to the release
         shell: bash
         run: |
           shopt -s nullglob
-          installers=(packages/jackpost-electron/out/*_win.exe)
+          installers=(packages/jackpost-electron/out/*_win.exe packages/jackpost-electron/out/*_win_portable.exe)
           if [ ${#installers[@]} -eq 0 ]; then
             echo "Windows installer was not built" >&2
             exit 1

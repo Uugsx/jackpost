@@ -22,9 +22,13 @@ const UPDATE_ASSET_PATTERNS = {
 
 const isArm64Asset = (name) => /arm64/i.test(name);
 
-const pickUpdateAsset = (assets = [], platform = process.platform, arch = process.arch) => {
+// Portable-сборка (electron-builder задаёт PORTABLE_EXECUTABLE_FILE) не ставится NSIS-установщиком:
+// обновление только вручную, по ссылке на релиз
+const isPortableBuild = () => Boolean(process.env.PORTABLE_EXECUTABLE_FILE);
+
+const pickUpdateAsset = (assets = [], platform = process.platform, arch = process.arch, portable = isPortableBuild()) => {
   const pattern = UPDATE_ASSET_PATTERNS[platform];
-  if (!pattern) return null;
+  if (!pattern || portable) return null;
   const candidates = assets.filter((asset) => pattern.test(asset.name) && asset.digest?.startsWith('sha256:'));
   return candidates.find((asset) => isArm64Asset(asset.name) === (arch === 'arm64')) || null;
 };

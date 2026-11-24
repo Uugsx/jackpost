@@ -119,6 +119,10 @@ const config = {
         target: 'nsis',
         // Нативные модули ставятся под архитектуру сборочной машины (x64 в CI)
         arch: ['x64']
+      },
+      {
+        target: 'portable',
+        arch: ['x64']
       }
     ],
     signtoolOptions: {
@@ -132,6 +136,10 @@ const config = {
     allowElevation: true,
     createDesktopShortcut: true,
     createStartMenuShortcut: true
+  },
+  // Один exe без установки; имя отличается от NSIS, чтобы OTA не спутал их
+  portable: {
+    artifactName: '${productName}_${version}_${arch}_win_portable.${ext}'
   },
   pkg: {
     installLocation: '/Applications',
