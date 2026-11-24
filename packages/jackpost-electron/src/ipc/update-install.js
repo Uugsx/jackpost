@@ -1,5 +1,5 @@
 const { app, ipcMain } = require('electron');
-const { spawnSync } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const crypto = require('crypto');
 const fs = require('fs');
 const fsPromises = require('fs/promises');
@@ -14,12 +14,19 @@ const setPendingUpdate = (update) => {
   pendingUpdate = update || null;
 };
 
-// Установка «по воздуху» поддержана только на macOS: подмена .app через DMG.
-const pickMacDmgAsset = (assets = []) => {
-  if (process.platform !== 'darwin') return null;
-  const dmgs = assets.filter((asset) => /\.dmg$/i.test(asset.name) && asset.digest?.startsWith('sha256:'));
-  const archMatch = dmgs.find((asset) => (/arm64/i.test(asset.name)) === (process.arch === 'arm64'));
-  return archMatch || null;
+// Установка «по воздуху»: на macOS подмена .app из DMG, на Windows — запуск NSIS-установщика.
+const UPDATE_ASSET_PATTERNS = {
+  darwin: /\.dmg$/i,
+  win32: /_win\.exe$/i
+};
+
+const isArm64Asset = (name) => /arm64/i.test(name);
+
+const pickUpdateAsset = (assets = [], platform = process.platform, arch = process.arch) => {
+  const pattern = UPDATE_ASSET_PATTERNS[platform];
+  if (!pattern) return null;
+  const candidates = assets.filter((asset) => pattern.test(asset.name) && asset.digest?.startsWith('sha256:'));
+  return candidates.find((asset) => isArm64Asset(asset.name) === (arch === 'arm64')) || null;
 };
 
 const getAppBundlePath = () => {
@@ -39,17 +46,17 @@ const sha256OfFile = async (filePath) => {
   return hash.digest('hex');
 };
 
-const downloadDmg = async ({ url, name, digest }) => {
+const downloadUpdate = async ({ url, name, digest }) => {
   const cacheDir = path.join(app.getPath('cache'), 'jackpost-updates');
   await fsPromises.mkdir(cacheDir, { recursive: true });
-  const dmgPath = path.join(cacheDir, path.basename(name));
+  const filePath = path.join(cacheDir, path.basename(name));
 
   const response = await fetch(url, { timeout: DOWNLOAD_TIMEOUT_MS });
   if (!response.ok) {
     throw new Error(`Download failed with ${response.status}`);
   }
   await new Promise((resolve, reject) => {
-    const out = fs.createWriteStream(dmgPath);
+    const out = fs.createWriteStream(filePath);
     response.body.on('error', reject);
     out.on('error', reject);
     out.on('finish', resolve);
@@ -57,11 +64,11 @@ const downloadDmg = async ({ url, name, digest }) => {
   });
 
   const expected = digest.replace(/^sha256:/, '').toLowerCase();
-  if ((await sha256OfFile(dmgPath)) !== expected) {
-    await fsPromises.rm(dmgPath, { force: true });
+  if ((await sha256OfFile(filePath)) !== expected) {
+    await fsPromises.rm(filePath, { force: true });
     throw new Error('Update checksum mismatch');
   }
-  return dmgPath;
+  return filePath;
 };
 
 // Пути передаются аргументами, а не текстом скрипта. Новую версию копируем рядом и подменяем
@@ -107,12 +114,20 @@ rm -rf "$BACKUP"
 open "$DEST"
 `;
 
-const installPendingUpdate = async () => {
+// NSIS-установщик electron-builder: /S — тихая установка в прежнюю папку, --force-run — запуск приложения после неё.
+const installWindowsUpdate = async () => {
+  const installerPath = await downloadUpdate(pendingUpdate);
+  const installer = spawn(installerPath, ['/S', '--force-run'], { detached: true, stdio: 'ignore' });
+  installer.unref();
+  app.exit(0);
+};
+
+const installMacUpdate = async () => {
   const destApp = getAppBundlePath();
-  if (!pendingUpdate || !destApp) {
+  if (!destApp) {
     throw new Error('Установка обновления недоступна');
   }
-  const dmgPath = await downloadDmg(pendingUpdate);
+  const dmgPath = await downloadUpdate(pendingUpdate);
   const scriptPath = path.join(app.getPath('temp'), `jackpost-install-${process.pid}.sh`);
   await fsPromises.writeFile(scriptPath, INSTALL_SCRIPT, { mode: 0o755 });
   // launchd владеет процессом установщика: он переживает как выход, так и принудительное завершение приложения
@@ -124,8 +139,18 @@ const installPendingUpdate = async () => {
   app.exit(0);
 };
 
+const installPendingUpdate = async () => {
+  if (!pendingUpdate) {
+    throw new Error('Установка обновления недоступна');
+  }
+  if (process.platform === 'win32') {
+    return installWindowsUpdate();
+  }
+  return installMacUpdate();
+};
+
 const registerUpdateInstallIpc = () => {
   ipcMain.handle('renderer:install-update', installPendingUpdate);
 };
 
-module.exports = { registerUpdateInstallIpc, setPendingUpdate, pickMacDmgAsset, installPendingUpdate };
+module.exports = { registerUpdateInstallIpc, setPendingUpdate, pickUpdateAsset, installPendingUpdate };

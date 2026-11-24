@@ -1,6 +1,6 @@
 const { app, ipcMain } = require('electron');
 const fetch = require('node-fetch');
-const { setPendingUpdate, pickMacDmgAsset } = require('./update-install');
+const { setPendingUpdate, pickUpdateAsset } = require('./update-install');
 
 const LATEST_RELEASE_URL = 'https://api.github.com/repos/Uugsx/jackpost/releases/latest';
 const REQUEST_TIMEOUT_MS = 10000;
@@ -37,7 +37,7 @@ const checkForUpdate = async (mainWindow, { manual = false } = {}) => {
       return;
     }
     const version = release.tag_name.replace(/^v/i, '');
-    const asset = pickMacDmgAsset(release.assets);
+    const asset = pickUpdateAsset(release.assets);
     setPendingUpdate(asset && { version, name: asset.name, url: asset.browser_download_url, digest: asset.digest });
     mainWindow.webContents.send('main:update-available', {
       version,

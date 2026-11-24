@@ -117,7 +117,8 @@ const config = {
     target: [
       {
         target: 'nsis',
-        arch: ['x64', 'arm64']
+        // Нативные модули ставятся под архитектуру сборочной машины (x64 в CI)
+        arch: ['x64']
       }
     ],
     signtoolOptions: {

@@ -1,0 +1,43 @@
+name: Release Windows
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Тег релиза, к которому приложить установщик (например v2.0.4)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm i --legacy-peer-deps
+      - run: npm run setup
+      - run: npm run build:web
+      - run: npm run build:electron
+      - name: Upload installer to the release
+        shell: bash
+        run: |
+          shopt -s nullglob
+          installers=(packages/jackpost-electron/out/*_win.exe)
+          if [ ${#installers[@]} -eq 0 ]; then
+            echo "Windows installer was not built" >&2
+            exit 1
+          fi
+          gh release upload "$RELEASE_TAG" "${installers[@]}" --clobber --repo "$GITHUB_REPOSITORY"
