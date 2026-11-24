@@ -87,6 +87,7 @@ const { preferencesUtil, getPreferences, savePreferences } = require('./store/pr
 const { globalEnvironmentsManager } = require('./store/workspace-environments');
 const registerNotificationsIpc = require('./ipc/notifications');
 const { registerUpdateCheckIpc } = require('./ipc/update-check');
+const { registerMenuLanguageIpc } = require('./app/menu-i18n');
 const { registerUpdateInstallIpc } = require('./ipc/update-install');
 const registerGlobalEnvironmentsIpc = require('./ipc/global-environments');
 const registerAppDocumentIpc = require('./ipc/app-document');
@@ -568,6 +569,7 @@ app.on('ready', async () => {
 
   // register all ipc handlers
   registerNetworkIpc(mainWindow);
+  registerMenuLanguageIpc();
   registerGlobalEnvironmentsIpc(mainWindow, globalEnvironmentsManager);
   registerCollectionsIpc(mainWindow, collectionWatcher);
   registerYmlMigrationIpc(mainWindow, collectionWatcher);

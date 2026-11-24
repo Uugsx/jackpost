@@ -1,5 +1,5 @@
 // Каждый раздел: заголовок и блоки. Блок — { text } | { list: [] } | { code }
-export const DOCUMENTATION_SECTIONS = [
+export const DOCUMENTATION_SECTIONS_RU = [
   {
     id: 'quick-start',
     title: 'Быстрый старт',

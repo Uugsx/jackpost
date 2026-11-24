@@ -1,0 +1,34 @@
+{
+    "COMMON": {
+        "COLLECTIONS": "Коллекции",
+        "DOCUMENTATION": "Документация",
+        "REPORT_ISSUES": "Сообщить о проблеме",
+        "GITHUB": "GitHub",
+        "DISCORD": "Discord",
+        "TWITTER": "Twitter",
+        "LINKEDIN": "LinkedIn"
+    },
+    "WELCOME": {
+        "ABOUT_JACKPOST": "Клиент для исследования и тестирования API",
+        "LINKS": "Ссылки",
+        "CREATE_COLLECTION": "Создать коллекцию",
+        "OPEN_COLLECTION": "Открыть коллекцию",
+        "IMPORT_COLLECTION": "Импортировать коллекцию",
+        "COLLECTION_IMPORT_SUCCESS": "Коллекция импортирована",
+        "COLLECTION_IMPORT_ERROR": "Не удалось импортировать коллекцию. Подробности в логах.",
+        "COLLECTION_OPEN_ERROR": "Не удалось открыть коллекцию",
+        "GLOBAL_SEARCH_TIP_PART1": "Нажмите",
+        "GLOBAL_SEARCH_TIP_PART2": "(mac) или",
+        "GLOBAL_SEARCH_TIP_PART3": "(windows), чтобы быстро искать коллекции, папки и запросы"
+    },
+    "SUPPORT": {
+        "HELP": "Помощь",
+        "COMMUNITY": "Сообщество",
+        "DOCUMENTATION_DESCRIPTION": "Руководства, справка и примеры",
+        "REPORT_ISSUES_DESCRIPTION": "Сообщить об ошибке или предложить функцию",
+        "DISCORD_DESCRIPTION": "Вопросы и общение с командой",
+        "GITHUB_DESCRIPTION": "Исходный код, релизы и обсуждения",
+        "TWITTER_DESCRIPTION": "Новости о релизах",
+        "LINKEDIN_DESCRIPTION": "Новости проекта"
+    }
+}

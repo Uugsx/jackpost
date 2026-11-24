@@ -131,7 +131,7 @@ const Preferences = () => {
           </div>
           <div className={getTabClassname('documentation')} role="tab" onClick={() => setTab('documentation')}>
             <IconBook size={16} strokeWidth={1.5} />
-            Документация
+            Documentation
           </div>
           <div className={getTabClassname('support')} role="tab" onClick={() => setTab('support')}>
             <IconZoomQuestion size={16} strokeWidth={1.5} />
